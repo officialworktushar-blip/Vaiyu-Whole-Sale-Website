@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import {
+  sendAdminOrderNotification,
+  sendOrderConfirmationEmail,
+} from "@/lib/email";
 
 type OrderItemInput = {
   productId: string;
@@ -47,12 +51,20 @@ export async function POST(request: Request) {
   const address = typeof data.address === "string" ? data.address.trim() : "";
   const callingNumber = parsePhone(data.callingNumber);
   const whatsappNumber = parsePhone(data.whatsappNumber);
+  const email = typeof data.email === "string" ? data.email.trim() : "";
   const notes = typeof data.notes === "string" ? data.notes.trim() : null;
   const rawItems = Array.isArray(data.items) ? data.items : [];
 
-  if (!fullName || !address || !callingNumber || !whatsappNumber) {
+  if (!fullName || !address || !callingNumber || !whatsappNumber || !email) {
     return NextResponse.json(
       { error: "Please fill in all required fields." },
+      { status: 400 },
+    );
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json(
+      { error: "Please enter a valid email address." },
       { status: 400 },
     );
   }
@@ -108,6 +120,7 @@ export async function POST(request: Request) {
         customerName: fullName,
         callingNumber,
         whatsappNumber,
+        email,
         address,
         notes: notes || null,
         totalAmount,
@@ -123,6 +136,7 @@ export async function POST(request: Request) {
           }),
         },
       },
+      include: { orderItems: true },
     });
 
     for (const item of parsedItems) {
@@ -134,6 +148,18 @@ export async function POST(request: Request) {
 
     return created;
   });
+
+  try {
+    await sendOrderConfirmationEmail(order, order.orderItems);
+  } catch (error) {
+    console.error("Failed to send order confirmation email:", error);
+  }
+
+  try {
+    await sendAdminOrderNotification(order, order.orderItems);
+  } catch (error) {
+    console.error("Failed to send admin order notification email:", error);
+  }
 
   return NextResponse.json({ orderId: order.id }, { status: 201 });
 }

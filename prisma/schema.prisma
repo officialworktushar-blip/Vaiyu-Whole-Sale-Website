@@ -48,6 +48,7 @@ model Product {
 model Order {
   id             String      @id @default(cuid())
   customerName   String
+  email          String
   callingNumber  String
   whatsappNumber String
   address        String      @db.Text

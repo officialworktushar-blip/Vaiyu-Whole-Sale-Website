@@ -12,6 +12,7 @@ type FormState = {
   fullName: string;
   callingNumber: string;
   whatsappNumber: string;
+  email: string;
   address: string;
   notes: string;
 };
@@ -20,6 +21,7 @@ const EMPTY_FORM: FormState = {
   fullName: "",
   callingNumber: "",
   whatsappNumber: "",
+  email: "",
   address: "",
   notes: "",
 };
@@ -67,6 +69,11 @@ export default function CheckoutPage() {
     if (form.whatsappNumber.length !== 10) {
       nextErrors.whatsappNumber = "WhatsApp number must be 10 digits.";
     }
+    if (!form.email.trim()) {
+      nextErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      nextErrors.email = "Please enter a valid email address.";
+    }
     if (!form.address.trim()) nextErrors.address = "Delivery address is required.";
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
@@ -88,6 +95,7 @@ export default function CheckoutPage() {
           fullName: form.fullName.trim(),
           callingNumber: form.callingNumber,
           whatsappNumber: form.whatsappNumber,
+          email: form.email.trim(),
           address: form.address.trim(),
           notes: form.notes.trim() || null,
           items: items.map((item) => ({
@@ -225,6 +233,22 @@ export default function CheckoutPage() {
                 />
                 Same as calling number
               </label>
+
+              <div>
+                <label htmlFor="email" className={labelClass}>
+                  Email <span className="text-brand-red">*</span>
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={(event) => setField("email", event.target.value)}
+                  className={inputClass}
+                  placeholder="e.g. rajesh@gmail.com"
+                />
+                {errors.email && <p className={errorClass}>{errors.email}</p>}
+              </div>
             </div>
           </section>
 
