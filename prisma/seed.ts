@@ -104,6 +104,7 @@ async function main() {
           price: product.price,
           mrp: product.mrp,
           stock: product.stock,
+          images: [placeholderImage(product.name)],
         },
         create: {
           name: product.name,
