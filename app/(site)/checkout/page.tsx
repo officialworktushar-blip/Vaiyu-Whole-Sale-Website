@@ -28,9 +28,13 @@ const EMPTY_FORM: FormState = {
 
 const inputClass =
   "w-full rounded-md border border-gray-300 px-3 py-2.5 text-sm text-brand-navy placeholder:text-gray-400 focus:border-brand-orange focus:outline-none focus:ring-1 focus:ring-brand-orange";
+const inputErrorClass = `${inputClass} border-brand-red focus:border-brand-red focus:ring-brand-red`;
 const labelClass =
   "mb-1.5 block text-sm font-medium text-brand-navy";
 const errorClass = "mt-1 text-xs text-brand-red";
+
+const fieldErrorClass = (hasError: boolean) =>
+  hasError ? inputErrorClass : inputClass;
 
 function normalizePhone(value: string): string {
   return value.replace(/[^\d]/g, "").slice(0, 10);
@@ -82,7 +86,10 @@ export default function CheckoutPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (items.length === 0 || submitting) return;
-    if (!validate()) return;
+    if (!validate()) {
+      setSubmitError("Please fix the highlighted fields and try again.");
+      return;
+    }
 
     setSubmitting(true);
     setSubmitError("");
@@ -166,7 +173,7 @@ export default function CheckoutPage() {
                   autoComplete="name"
                   value={form.fullName}
                   onChange={(event) => setField("fullName", event.target.value)}
-                  className={inputClass}
+                  className={fieldErrorClass(Boolean(errors.fullName))}
                   placeholder="e.g. Rajesh Kumar"
                 />
                 {errors.fullName && (
@@ -195,7 +202,7 @@ export default function CheckoutPage() {
                       }));
                     }
                   }}
-                  className={inputClass}
+                  className={fieldErrorClass(Boolean(errors.callingNumber))}
                   placeholder="10-digit mobile number"
                 />
                 {errors.callingNumber && (
@@ -216,7 +223,7 @@ export default function CheckoutPage() {
                   onChange={(event) =>
                     setField("whatsappNumber", normalizePhone(event.target.value))
                   }
-                  className={`${inputClass} disabled:bg-gray-100 disabled:text-gray-500`}
+                  className={`${fieldErrorClass(Boolean(errors.whatsappNumber))} disabled:bg-gray-100 disabled:text-gray-500`}
                   placeholder="10-digit WhatsApp number"
                 />
                 {errors.whatsappNumber && (
@@ -244,7 +251,7 @@ export default function CheckoutPage() {
                   autoComplete="email"
                   value={form.email}
                   onChange={(event) => setField("email", event.target.value)}
-                  className={inputClass}
+                  className={fieldErrorClass(Boolean(errors.email))}
                   placeholder="e.g. rajesh@gmail.com"
                 />
                 {errors.email && <p className={errorClass}>{errors.email}</p>}
@@ -268,7 +275,7 @@ export default function CheckoutPage() {
                   autoComplete="street-address"
                   value={form.address}
                   onChange={(event) => setField("address", event.target.value)}
-                  className={`${inputClass} resize-y`}
+                  className={`${fieldErrorClass(Boolean(errors.address))} resize-y`}
                   placeholder="House number, street, area, city, state, pincode"
                 />
                 {errors.address && (
@@ -312,7 +319,6 @@ export default function CheckoutPage() {
                     src={item.image}
                     alt={item.name}
                     fill
-                    unoptimized
                     sizes="56px"
                     className="object-cover"
                   />

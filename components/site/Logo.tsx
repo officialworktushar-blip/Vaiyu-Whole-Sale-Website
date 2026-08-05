@@ -20,14 +20,14 @@ export default function Logo({
         alt="Vaiyu Industries logo"
         width={68}
         height={68}
-        className="h-11 w-11 object-contain"
+        className="h-10 w-10 object-contain sm:h-11 sm:w-11"
       />
       <span className="flex flex-col">
-        <span className={`text-xl font-bold tracking-tight ${titleClass}`}>
+        <span className={`text-lg font-bold tracking-tight sm:text-xl ${titleClass}`}>
           Vaiyu Industries
         </span>
         {showTagline && (
-          <span className={`text-xs ${taglineClass}`}>
+          <span className={`text-xs ${taglineClass} hidden sm:block`}>
             Powering Homes, Enhancing Lives
           </span>
         )}

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const FALLBACK_IMAGE = "https://placehold.co/600x600?text=Product";
+const FALLBACK_IMAGE = "https://placehold.co/600x600.png?text=Product";
 
 export default function ProductGallery({
   images,
@@ -23,7 +23,6 @@ export default function ProductGallery({
           alt={name}
           fill
           priority
-          unoptimized
           sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-cover"
         />
@@ -47,7 +46,6 @@ export default function ProductGallery({
                 src={src}
                 alt=""
                 fill
-                unoptimized
                 sizes="(min-width: 1024px) 12vw, 20vw"
                 className="object-cover"
               />

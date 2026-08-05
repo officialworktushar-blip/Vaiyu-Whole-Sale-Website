@@ -14,9 +14,15 @@ export async function generateMetadata({
     where: { slug: params.category },
   });
   if (!category) return { title: "Category Not Found | Vaiyu Industries" };
+  const description = `Wholesale ${category.name.toLowerCase()} from Vaiyu Industries.`;
   return {
     title: `${category.name} | Vaiyu Industries`,
-    description: `Wholesale ${category.name.toLowerCase()} from Vaiyu Industries.`,
+    description,
+    openGraph: {
+      title: `${category.name} | Vaiyu Industries`,
+      description,
+      images: [{ url: "/Vaiyu.webp", alt: "Vaiyu Industries" }],
+    },
   };
 }
 

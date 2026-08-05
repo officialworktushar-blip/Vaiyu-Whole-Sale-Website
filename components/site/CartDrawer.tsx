@@ -75,13 +75,12 @@ export default function CartDrawer() {
           <>
             <ul className="flex-1 divide-y divide-gray-100 overflow-y-auto px-5">
               {items.map((item) => (
-                <li key={item.id} className="flex gap-4 py-4">
-                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border border-gray-200 bg-gray-100">
+                <li key={item.id} className="flex gap-3 py-4 sm:gap-4">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md border border-gray-200 bg-gray-100 sm:h-20 sm:w-20">
                     <Image
                       src={item.image}
                       alt={item.name}
                       fill
-                      unoptimized
                       sizes="80px"
                       className="object-cover"
                     />
@@ -102,7 +101,7 @@ export default function CartDrawer() {
                       </button>
                     </div>
 
-                    <div className="mt-auto flex items-center justify-between">
+                    <div className="mt-auto flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-3 rounded-md border border-gray-300 p-1">
                         <button
                           type="button"

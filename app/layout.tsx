@@ -8,12 +8,39 @@ const geistSans = localFont({
   weight: "100 900",
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_TITLE = "Vaiyu Industries | Powering Homes, Enhancing Lives";
+const SITE_DESCRIPTION =
+  "Wholesale distributor of home power and energy solutions.";
+
 export const metadata: Metadata = {
-  title: "Vaiyu Industries | Powering Homes, Enhancing Lives",
-  description:
-    "Wholesale distributor of home power and energy solutions.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  applicationName: "Vaiyu Industries",
   icons: {
     icon: "/Vaiyu.webp",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Vaiyu Industries",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    locale: "en_IN",
+    images: [
+      {
+        url: "/Vaiyu.webp",
+        width: 512,
+        height: 512,
+        alt: "Vaiyu Industries",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/Vaiyu.webp"],
   },
 };
 

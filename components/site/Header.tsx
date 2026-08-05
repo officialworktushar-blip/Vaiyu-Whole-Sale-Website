@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/site/Logo";
 import CartButton from "@/components/site/CartButton";
+import MobileMenu from "@/components/site/MobileMenu";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -13,7 +14,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between gap-6">
+        <div className="flex h-20 items-center justify-between gap-3 lg:gap-6">
           <Logo />
 
           <nav className="hidden items-center gap-8 lg:flex">
@@ -28,11 +29,12 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <MobileMenu />
             <CartButton />
             <Link
               href="/admin"
-              className="rounded-md bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
+              className="hidden whitespace-nowrap rounded-md bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 sm:block sm:px-5"
             >
               Wholesale Login
             </Link>

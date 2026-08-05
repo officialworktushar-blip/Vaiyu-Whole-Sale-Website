@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: "All Products | Vaiyu Industries",
   description:
     "Browse our full wholesale catalog of home appliances, spare parts, and accessories.",
+  openGraph: {
+    title: "All Products | Vaiyu Industries",
+    description:
+      "Browse our full wholesale catalog of home appliances, spare parts, and accessories.",
+    images: [{ url: "/Vaiyu.webp", alt: "Vaiyu Industries" }],
+  },
 };
 
 export default async function ProductsPage({

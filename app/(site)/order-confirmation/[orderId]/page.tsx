@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Order Confirmation | Vaiyu Industries",
+  robots: { index: false },
 };
 
 export default async function OrderConfirmationPage({

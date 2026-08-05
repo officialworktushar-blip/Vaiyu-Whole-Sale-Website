@@ -6,7 +6,7 @@ import AddToCartButton from "@/components/site/AddToCartButton";
 
 export type ProductWithCategory = Product & { category: Category };
 
-const FALLBACK_IMAGE = "https://placehold.co/600x600?text=Product";
+const FALLBACK_IMAGE = "https://placehold.co/600x600.png?text=Product";
 
 export default function ProductCard({
   product,
@@ -23,7 +23,6 @@ export default function ProductCard({
           src={product.images[0] ?? FALLBACK_IMAGE}
           alt={product.name}
           fill
-          unoptimized
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw"
           className="object-cover transition duration-300 group-hover:scale-105"
         />

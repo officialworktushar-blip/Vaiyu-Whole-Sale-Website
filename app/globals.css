@@ -18,3 +18,25 @@ body {
     text-wrap: balance;
   }
 }
+
+@keyframes vayu-shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@layer utilities {
+  .animate-skeleton {
+    animation: vayu-shimmer 1.6s linear infinite;
+    background: linear-gradient(
+      90deg,
+      #f1f3f7 25%,
+      #e6e9ef 37%,
+      #f1f3f7 63%
+    );
+    background-size: 800px 100%;
+  }
+}

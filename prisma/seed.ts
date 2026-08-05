@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { PrismaClient } from "../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import bcrypt from "bcryptjs";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -9,7 +8,19 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter });
 
 const placeholderImage = (label: string) =>
-  `https://placehold.co/600x600?text=${encodeURIComponent(label)}`;
+  `https://placehold.co/600x600.png?text=${encodeURIComponent(label)}`;
+
+if (
+  process.env.NODE_ENV === "production" &&
+  process.env.SEED_FORCE !== "true"
+) {
+  console.error(
+    "Refusing to seed sample data in production.",
+    "This script only creates demo categories, products, and banners with placeholder images.",
+    "Run `npm run db:seed:admin` to create your admin user instead.",
+  );
+  process.exit(1);
+}
 
 const categories = [
   { name: "Washing Machines", slug: "washing-machines", icon: "washing-machine" },
@@ -121,14 +132,6 @@ async function main() {
     },
   });
   console.log("  Banner: Wholesale Deals on Home Appliances");
-
-  const passwordHash = await bcrypt.hash("change-me-later", 12);
-  await prisma.admin.upsert({
-    where: { email: "admin@vaiyuindustries.com" },
-    update: { passwordHash },
-    create: { email: "admin@vaiyuindustries.com", passwordHash },
-  });
-  console.log("  Admin: admin@vaiyuindustries.com");
 
   console.log("Seed complete.");
 }

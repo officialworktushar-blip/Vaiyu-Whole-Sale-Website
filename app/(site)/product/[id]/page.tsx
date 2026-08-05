@@ -7,7 +7,7 @@ import { formatPrice } from "@/lib/format";
 import ProductGallery from "@/components/site/ProductGallery";
 import AddToCartSection from "@/components/site/AddToCartSection";
 
-const FALLBACK_IMAGE = "https://placehold.co/600x600?text=Product";
+const FALLBACK_IMAGE = "https://placehold.co/600x600.png?text=Product";
 
 export async function generateMetadata({
   params,
@@ -21,9 +21,17 @@ export async function generateMetadata({
   if (!product) {
     return { title: "Product Not Found | Vaiyu Industries" };
   }
+  const description = product.description.slice(0, 160);
+  const image = product.images[0] ?? FALLBACK_IMAGE;
   return {
     title: `${product.name} | Vaiyu Industries`,
-    description: product.description.slice(0, 160),
+    description,
+    openGraph: {
+      title: `${product.name} | Vaiyu Industries`,
+      description,
+      type: "website",
+      images: [{ url: image, alt: product.name }],
+    },
   };
 }
 
