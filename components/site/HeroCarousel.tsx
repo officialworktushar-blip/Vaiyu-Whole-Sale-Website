@@ -62,6 +62,7 @@ export default function HeroCarousel({ banners }: { banners: BannerSlide[] }) {
               alt={banner.title ?? "Vaiyu Industries banner"}
               fill
               priority={index === 0}
+              unoptimized
               sizes="100vw"
               className={`object-cover transition-opacity duration-700 ${
                 isActive ? "opacity-100" : "opacity-0"

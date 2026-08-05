@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Vaiyu Industries | Powering Homes, Enhancing Lives",
   description:
     "Wholesale distributor of home power and energy solutions.",
+  icons: {
+    icon: "/Vaiyu.webp",
+  },
 };
 
 export default function RootLayout({

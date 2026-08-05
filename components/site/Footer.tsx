@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/site/Logo";
 
 const QUICK_LINKS = [
   { href: "/", label: "Home" },
@@ -14,17 +15,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-gradient text-lg font-bold text-white">
-                V
-              </span>
-              <div>
-                <p className="text-lg font-bold">Vaiyu Industries</p>
-                <p className="text-sm text-gray-300">
-                  Powering Homes, Enhancing Lives
-                </p>
-              </div>
-            </div>
+            <Logo variant="light" />
             <p className="mt-6 max-w-md text-sm leading-relaxed text-gray-300">
               Wholesale distributor of home power and energy solutions.
               Company address, description, and registration details
