@@ -32,12 +32,6 @@ export default function Header() {
           <div className="flex items-center gap-1.5 sm:gap-2">
             <MobileMenu />
             <CartButton />
-            <Link
-              href="/admin"
-              className="hidden whitespace-nowrap rounded-md bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 sm:block sm:px-5"
-            >
-              Wholesale Login
-            </Link>
           </div>
         </div>
       </div>

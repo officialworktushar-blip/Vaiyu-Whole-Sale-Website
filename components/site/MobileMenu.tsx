@@ -59,15 +59,6 @@ export default function MobileMenu() {
                   </Link>
                 </li>
               ))}
-              <li className="pt-2">
-                <Link
-                  href="/admin"
-                  onClick={() => setOpen(false)}
-                  className="block rounded-md bg-brand-gradient px-3 py-2.5 text-center text-base font-semibold text-white transition-opacity hover:opacity-90"
-                >
-                  Wholesale Login
-                </Link>
-              </li>
             </ul>
           </nav>
         </>

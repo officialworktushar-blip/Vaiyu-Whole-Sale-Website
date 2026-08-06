@@ -6,7 +6,6 @@ const QUICK_LINKS = [
   { href: "/products", label: "Products" },
   { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact" },
-  { href: "/admin", label: "Wholesale Login" },
 ];
 
 export default function Footer() {
