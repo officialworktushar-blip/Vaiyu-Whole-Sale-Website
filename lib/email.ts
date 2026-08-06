@@ -159,3 +159,65 @@ export async function sendAdminOrderNotification(
     attachments: [await logoAttachment()],
   });
 }
+
+export type ContactFormData = {
+  name: string;
+  phone: string;
+  email: string;
+  message: string;
+};
+
+function renderContactFormEmail(data: ContactFormData): {
+  subject: string;
+  html: string;
+} {
+  const html = `
+    <div style="background-color:#f4f5f7;padding:24px 16px;font-family:Arial,Helvetica,sans-serif;">
+      <div style="max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
+        <div style="background-color:${NAVY};padding:28px 24px;text-align:center;">
+          <img src="cid:logo" alt="Vaiyu Industries" width="72" height="72" style="display:block;margin:0 auto;border-radius:50%;" />
+          <h1 style="margin:12px 0 0;color:#ffffff;font-size:24px;font-weight:700;">Vaiyu Industries</h1>
+          <p style="margin:4px 0 0;color:${ORANGE};font-size:13px;">New Contact Message</p>
+        </div>
+        <div style="padding:28px 24px;">
+          <p style="margin:0 0 20px;font-size:16px;color:#111827;font-weight:600;">You received a new message from the website contact form.</p>
+
+          <p style="margin:0 0 4px;font-size:13px;color:#6b7280;">NAME</p>
+          <p style="margin:0 0 16px;font-size:15px;font-weight:600;color:${NAVY};">${escapeHtml(data.name)}</p>
+
+          <p style="margin:0 0 4px;font-size:13px;color:#6b7280;">PHONE NUMBER</p>
+          <p style="margin:0 0 16px;font-size:15px;font-weight:600;color:${NAVY};">${escapeHtml(data.phone)}</p>
+
+          <p style="margin:0 0 4px;font-size:13px;color:#6b7280;">EMAIL ADDRESS</p>
+          <p style="margin:0 0 16px;font-size:15px;font-weight:600;color:${NAVY};">${escapeHtml(data.email)}</p>
+
+          <p style="margin:0 0 4px;font-size:13px;color:#6b7280;">MESSAGE</p>
+          <p style="margin:0;font-size:14px;line-height:1.7;color:#111827;background-color:#f9fafb;border-radius:8px;padding:12px 16px;">${toHtmlLines(data.message)}</p>
+
+          <p style="margin:24px 0 0;padding-top:20px;border-top:1px solid #e5e7eb;font-size:12px;color:#9ca3af;">This email was sent automatically from the Vaiyu Industries website contact form.</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  return {
+    subject: `New Contact Message from ${data.name} - Vaiyu Industries`,
+    html,
+  };
+}
+
+export async function sendContactFormEmail(data: ContactFormData): Promise<void> {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!adminEmail) {
+    console.warn("ADMIN_EMAIL is not set. Skipping contact form email.");
+    return;
+  }
+  const { subject, html } = renderContactFormEmail(data);
+  await transporter.sendMail({
+    from: `"Vaiyu Industries" <${process.env.EMAIL_USER}>`,
+    to: adminEmail,
+    subject,
+    html,
+    attachments: [await logoAttachment()],
+  });
+}
