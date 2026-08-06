@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/lib/format";
 import ProductGallery from "@/components/site/ProductGallery";
 import AddToCartSection from "@/components/site/AddToCartSection";
+import ProductCard from "@/components/site/ProductCard";
+import ProductReviews from "@/components/site/ProductReviews";
 
 export const dynamic = "force-dynamic";
 
@@ -68,6 +70,17 @@ export default async function ProductPage({
         : { label: "In Stock", className: "bg-green-50 text-green-600" };
 
   const isOutOfStock = product.stock === 0;
+
+  const relatedProducts = await prisma.product.findMany({
+    where: {
+      categoryId: product.categoryId,
+      id: { not: product.id },
+      isActive: true,
+    },
+    include: { category: true },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -167,6 +180,21 @@ export default async function ProductPage({
           </div>
         </div>
       </div>
+
+      {relatedProducts.length > 0 && (
+        <section className="mt-16">
+          <h2 className="text-2xl font-bold tracking-tight text-brand-navy">
+            Related Products
+          </h2>
+          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {relatedProducts.map((related) => (
+              <ProductCard key={related.id} product={related} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <ProductReviews />
     </div>
   );
 }
