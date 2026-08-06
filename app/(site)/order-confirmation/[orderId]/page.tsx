@@ -5,6 +5,8 @@ import { CheckCircle2, PackageCheck } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/lib/format";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Order Confirmation | Vaiyu Industries",
   robots: { index: false },

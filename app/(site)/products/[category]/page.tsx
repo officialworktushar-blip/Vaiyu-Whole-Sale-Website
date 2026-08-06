@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import ProductListing from "@/components/site/ProductListing";
 import { LISTING_PAGE_SIZE, parsePage, parseSort } from "@/lib/listing";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {

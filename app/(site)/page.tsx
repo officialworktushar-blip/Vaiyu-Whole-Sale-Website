@@ -4,6 +4,8 @@ import CategoryGrid from "@/components/site/CategoryGrid";
 import FeaturedProducts from "@/components/site/FeaturedProducts";
 import TrustSection from "@/components/site/TrustSection";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [banners, categories, featuredProducts] = await Promise.all([
     prisma.banner.findMany({

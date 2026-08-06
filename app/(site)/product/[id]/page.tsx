@@ -7,6 +7,8 @@ import { formatPrice } from "@/lib/format";
 import ProductGallery from "@/components/site/ProductGallery";
 import AddToCartSection from "@/components/site/AddToCartSection";
 
+export const dynamic = "force-dynamic";
+
 const FALLBACK_IMAGE = "https://placehold.co/600x600.png?text=Product";
 
 export async function generateMetadata({
