@@ -19,6 +19,13 @@ export default function ImageUpload({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    console.log("[ImageUpload] File selected:", {
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      folder: folder ?? "products",
+    });
+
     const formData = new FormData();
     formData.append("file", file);
     if (folder) formData.append("folder", folder);
@@ -31,12 +38,22 @@ export default function ImageUpload({
         body: formData,
       });
       const data = (await response.json()) as { url?: string; error?: string };
+
+      console.log("[ImageUpload] /api/upload response:", {
+        status: response.status,
+        ok: response.ok,
+        url: data.url,
+        error: data.error,
+      });
+
       if (!response.ok || !data.url) {
         setError(data.error ?? "Upload failed.");
       } else {
+        console.log("[ImageUpload] Setting preview URL:", data.url);
         onChange(data.url);
       }
-    } catch {
+    } catch (err) {
+      console.error("[ImageUpload] Fetch failed:", err);
       setError("Upload failed.");
     } finally {
       setUploading(false);
@@ -53,6 +70,9 @@ export default function ImageUpload({
             src={value}
             alt="Preview"
             className="h-20 w-20 rounded-md border border-gray-200 object-cover"
+            onError={() => {
+              console.error("[ImageUpload] Preview image failed to load. URL:", value);
+            }}
           />
         ) : (
           <div className="flex h-20 w-20 items-center justify-center rounded-md border border-dashed border-gray-300 px-2 text-center text-xs text-brand-gray">

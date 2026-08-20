@@ -196,7 +196,10 @@ export default function ProductForm({
         <span className={labelClass}>Image</span>
         <ImageUpload
           value={form.images[0] ?? ""}
-          onChange={(url) => setForm((prev) => ({ ...prev, images: [url] }))}
+          onChange={(url) => {
+            console.log("[ProductForm] ImageUpload onChange:", url);
+            setForm((prev) => ({ ...prev, images: [url] }));
+          }}
           folder="products"
         />
       </div>

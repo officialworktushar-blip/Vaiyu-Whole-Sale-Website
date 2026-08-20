@@ -75,7 +75,10 @@ export default function BannerForm({ banner }: { banner?: BannerFormData }) {
         </span>
         <ImageUpload
           value={form.imageUrl}
-          onChange={(url) => setForm((prev) => ({ ...prev, imageUrl: url }))}
+          onChange={(url) => {
+            console.log("[BannerForm] ImageUpload onChange:", url);
+            setForm((prev) => ({ ...prev, imageUrl: url }));
+          }}
           folder="banners"
         />
       </div>

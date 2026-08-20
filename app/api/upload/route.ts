@@ -66,6 +66,13 @@ export async function POST(request: NextRequest) {
     const fileName = `${Date.now()}-${randomUUID()}${getExtension(file.name)}`;
     const filePath = `${folder}/${fileName}`;
 
+    console.log("[/api/upload] Uploading to Supabase:", {
+      bucket: BUCKET,
+      filePath,
+      contentType: file.type,
+      fileSize: file.size,
+    });
+
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from(BUCKET)
       .upload(filePath, await file.arrayBuffer(), {
@@ -74,19 +81,26 @@ export async function POST(request: NextRequest) {
       });
 
     if (uploadError) {
-      console.error("Supabase upload error:", uploadError);
+      console.error("[/api/upload] Supabase upload error:", {
+        message: uploadError.message,
+        statusCode: uploadError.statusCode,
+      });
       return NextResponse.json(
         { error: "Image upload failed." },
         { status: 500 },
       );
     }
 
-    console.log("Upload succeeded:", { filePath, uploadData });
+    console.log("[/api/upload] Upload succeeded:", {
+      filePath,
+      uploadData,
+    });
 
     const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(filePath);
-    console.log("Public URL returned to client:", urlData.publicUrl);
+    const publicUrl = urlData.publicUrl;
+    console.log("[/api/upload] Public URL returned to client:", publicUrl);
 
-    return NextResponse.json({ url: urlData.publicUrl }, { status: 201 });
+    return NextResponse.json({ url: publicUrl }, { status: 201 });
   } catch (error) {
     console.error("Image upload failed:", error);
     return NextResponse.json(
