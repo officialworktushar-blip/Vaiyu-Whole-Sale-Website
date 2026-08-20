@@ -63,6 +63,7 @@ export async function PATCH(
   const patch: Prisma.BannerUpdateInput = {};
   if (typeof data.imageUrl === "string" && data.imageUrl.trim()) {
     patch.imageUrl = data.imageUrl.trim();
+    console.log("Updating banner imageUrl:", patch.imageUrl);
   }
   if (typeof data.title === "string") {
     patch.title = data.title.trim() || null;

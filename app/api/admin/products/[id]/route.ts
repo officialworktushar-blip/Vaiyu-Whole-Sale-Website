@@ -99,6 +99,7 @@ export async function PATCH(
     patch.images = data.images.filter(
       (image): image is string => typeof image === "string",
     );
+    console.log("Updating product images:", patch.images);
   }
   if (typeof data.isFeatured === "boolean") {
     patch.isFeatured = data.isFeatured;

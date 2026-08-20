@@ -78,6 +78,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  console.log("Creating product with images:", images);
+
   const product = await prisma.product.create({
     data: {
       name,

@@ -34,6 +34,9 @@ export async function POST(request: NextRequest) {
   const maxSortOrder = await prisma.banner.aggregate({
     _max: { sortOrder: true },
   });
+
+  console.log("Creating banner with imageUrl:", imageUrl);
+
   const banner = await prisma.banner.create({
     data: {
       imageUrl,

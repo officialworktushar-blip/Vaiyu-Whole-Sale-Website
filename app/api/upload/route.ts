@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     const fileName = `${Date.now()}-${randomUUID()}${getExtension(file.name)}`;
     const filePath = `${folder}/${fileName}`;
 
-    const { error: uploadError } = await supabase.storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
       .from(BUCKET)
       .upload(filePath, await file.arrayBuffer(), {
         contentType: file.type,
@@ -81,8 +81,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { data } = supabase.storage.from(BUCKET).getPublicUrl(filePath);
-    return NextResponse.json({ url: data.publicUrl }, { status: 201 });
+    console.log("Upload succeeded:", { filePath, uploadData });
+
+    const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(filePath);
+    console.log("Public URL returned to client:", urlData.publicUrl);
+
+    return NextResponse.json({ url: urlData.publicUrl }, { status: 201 });
   } catch (error) {
     console.error("Image upload failed:", error);
     return NextResponse.json(
