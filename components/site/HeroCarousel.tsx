@@ -63,7 +63,7 @@ export default function HeroCarousel({ banners }: { banners: BannerSlide[] }) {
               fill
               priority={index === 0}
               sizes="100vw"
-              className={`object-cover transition-opacity duration-700 ${
+              className={`object-contain transition-opacity duration-700 ${
                 isActive ? "opacity-100" : "opacity-0"
               }`}
             />

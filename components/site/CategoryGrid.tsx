@@ -1,12 +1,17 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
+  AirVent,
   Blender,
+  Cog,
+  Disc3,
   Fan,
+  Heater,
   Microwave,
   Package,
   Refrigerator,
   WashingMachine,
+  Wind,
   Wrench,
 } from "lucide-react";
 import type { Category } from "@/generated/prisma/client";
@@ -16,7 +21,12 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   refrigerator: Refrigerator,
   microwave: Microwave,
   blender: Blender,
-  fan: Fan,
+  heater: Heater,
+  induction: Disc3,
+  "fan-parts": Cog,
+  "office-fan": AirVent,
+  "ceiling-fan": Fan,
+  "table-fan": Wind,
   "spare-parts": Wrench,
 };
 

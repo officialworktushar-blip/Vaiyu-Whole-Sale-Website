@@ -27,7 +27,12 @@ const categories = [
   { name: "Refrigerators", slug: "refrigerators", icon: "refrigerator" },
   { name: "Microwaves", slug: "microwaves", icon: "microwave" },
   { name: "Blenders & Mixers", slug: "blenders-mixers", icon: "blender" },
-  { name: "Fans", slug: "fans", icon: "fan" },
+  { name: "Heaters", slug: "heaters", icon: "heater" },
+  { name: "Induction Cooktops", slug: "induction-cooktops", icon: "induction" },
+  { name: "Fan Parts", slug: "fan-parts", icon: "fan-parts" },
+  { name: "Office Fans", slug: "office-fans", icon: "office-fan" },
+  { name: "Ceiling Fans", slug: "ceiling-fans", icon: "ceiling-fan" },
+  { name: "Table Fans", slug: "table-fans", icon: "table-fan" },
   { name: "Spare Parts & Accessories", slug: "spare-parts-accessories", icon: "spare-parts" },
 ];
 
@@ -59,10 +64,15 @@ const productsByCategory: Record<string, SeedProduct[]> = {
     { name: "Juicer Blender 500W", price: 2490, mrp: 2990, stock: 70 },
     { name: "Hand Blender 200W", price: 1790, mrp: 2190, stock: 60 },
   ],
-  fans: [
+  "office-fans": [
+    { name: "Office Fan 18 inch", price: 1990, mrp: 2490, stock: 60 },
+  ],
+  "ceiling-fans": [
     { name: "Ceiling Fan 1200mm", price: 1490, mrp: 1890, stock: 120 },
-    { name: "Pedestal Fan 16 inch", price: 2490, mrp: 2990, stock: 90 },
-    { name: "Exhaust Fan 8 inch", price: 990, mrp: 1290, stock: 100 },
+    { name: "High Speed Ceiling Fan 1400mm", price: 1890, mrp: 2390, stock: 80 },
+  ],
+  "table-fans": [
+    { name: "Table Fan 16 inch", price: 1490, mrp: 1890, stock: 90 },
   ],
   "spare-parts-accessories": [
     { name: "Washing Machine Drain Hose", price: 349, mrp: 499, stock: 200 },
@@ -83,6 +93,13 @@ async function main() {
     });
     categoryIds.set(category.slug, record.id);
     console.log(`  Category: ${record.name}`);
+  }
+
+  const legacyFans = await prisma.category.findUnique({ where: { slug: "fans" } });
+  if (legacyFans) {
+    await prisma.product.deleteMany({ where: { categoryId: legacyFans.id } });
+    await prisma.category.delete({ where: { id: legacyFans.id } });
+    console.log("  Removed legacy category: Fans");
   }
 
   for (const [categorySlug, products] of Object.entries(productsByCategory)) {
