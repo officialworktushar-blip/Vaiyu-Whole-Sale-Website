@@ -63,7 +63,7 @@ export default function ImageUpload({
 
   return (
     <div>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         {value ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

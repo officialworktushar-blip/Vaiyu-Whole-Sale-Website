@@ -8,6 +8,18 @@ import {
 } from "@/lib/auth";
 
 export async function POST(request: Request) {
+  try {
+    return await postLogin(request);
+  } catch (error) {
+    console.error("[admin/login] error:", error);
+    return NextResponse.json(
+      { error: "Login failed due to a server error." },
+      { status: 500 },
+    );
+  }
+}
+
+async function postLogin(request: Request) {
   let body: unknown;
   try {
     body = await request.json();

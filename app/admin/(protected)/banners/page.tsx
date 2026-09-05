@@ -15,7 +15,7 @@ export default async function AdminBannersPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-bold text-brand-navy">Banners</h1>
         <Link
           href="/admin/banners/new"
@@ -55,7 +55,7 @@ export default async function AdminBannersPage() {
                   </p>
                 )}
               </div>
-              <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-3">
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-y-2 border-t border-gray-100 pt-3">
                 <BannerToggle id={banner.id} active={banner.isActive} />
                 <div className="flex items-center gap-2">
                   <BannerMoveButtons
